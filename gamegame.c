@@ -5,7 +5,59 @@
 #include <time.h>
 
 #define SIZE 3
+#define KEO 1
+#define BUA 2
+#define BAO 3
 
+int num_machine, num_gamer;
+void hienthiluachon(){
+    printf(" KEO CHON 1 \n BUA CHON 2\n BAO CHON 3\n");
+}
+
+int regime(){
+
+        if(num_gamer==KEO && num_machine==BUA ){
+            printf("BAN CHON KEO VA MAY CHON BUA\n");
+            printf("MAY DI TRUOC!!!\n");
+        }
+        else if(num_gamer==KEO && num_machine==BAO){
+            printf("BAN CHON KEO VA MAY CHON BAO\n");
+            printf("BAN DI TRUOC!!!\n");
+        }
+        else if(num_gamer==BUA && num_machine==KEO ){
+            printf("BAN CHON BUA VA MAY CHON KEO");
+            printf("BAN DI TRUOC!!!\n");
+        }
+        else if(num_gamer ==BUA && num_machine== BAO ){
+            printf("BAN CHON BUA VA MAY CHON BAO\n");
+            printf("MAY DI TRUOC!!!\n");
+        }
+        else if(num_gamer == BAO && num_machine== KEO ){
+            printf("BAN CHON BAO VA MAY CHON KEO\n");
+            printf("MAY DI TRUOC!!!\n");
+        }
+        else if(num_gamer== BAO && num_machine== BUA){
+            printf("BAN CHON BAO VA MAY CHON BUA\n");
+            printf("BAN DI TRUOC!!! \n");
+        }
+
+        do
+        {
+            else {
+                printf("BAN HOA VOI MAY!!!\n");
+            }
+        } while ({num_gamer==num_machine});
+        
+}
+
+
+
+
+
+
+
+
+// main game
 char board[SIZE][SIZE];
 char player, computer;
 
@@ -21,7 +73,7 @@ void choose() {
         computer = 'X';
     }
 }
-
+// initialize board game
 void create_board() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -44,11 +96,14 @@ void printboard() {
         }
     }
 }
+// how game works
 
+// valid move
 bool valid_move(int row, int col) {
     return (row < SIZE && row >= 0 && col < SIZE && col >= 0 && board[row][col] == ' ');
 }
 
+// check whether board is full or not
 bool full_board() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -60,6 +115,8 @@ bool full_board() {
     return true;
 }
 
+
+// check win
 bool regime(char currentPlayer) {
     for (int i = 0; i < SIZE; i++) {
         if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
@@ -78,6 +135,7 @@ bool regime(char currentPlayer) {
     return false;
 }
 
+// initialize the move of computer
 void computer_move() {
     int row, col;
     do {
@@ -87,6 +145,7 @@ void computer_move() {
     board[row][col] = computer;
 }
 
+// how to play 
 void poppy_playgame() {
     while (!full_board()) {
         int row, col;
@@ -131,8 +190,12 @@ void poppy_playgame() {
     printboard();
 }
 
+// main working space
 int main() {
     srand(time(NULL));
+    printf("KEO BUA BAO DE QUYET DINH NGUOI DI TRUOC");
+    hienthiluachon();
+
     choose();
     create_board();
     poppy_playgame();
