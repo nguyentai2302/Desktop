@@ -14,40 +14,52 @@ void hienthiluachon(){
     printf(" KEO CHON 1 \n BUA CHON 2\n BAO CHON 3\n");
 }
 
-int regime(){
+bool first_play(){
 
-        if(num_gamer==KEO && num_machine==BUA ){
-            printf("BAN CHON KEO VA MAY CHON BUA\n");
-            printf("MAY DI TRUOC!!!\n");
-        }
-        else if(num_gamer==KEO && num_machine==BAO){
-            printf("BAN CHON KEO VA MAY CHON BAO\n");
-            printf("BAN DI TRUOC!!!\n");
-        }
-        else if(num_gamer==BUA && num_machine==KEO ){
-            printf("BAN CHON BUA VA MAY CHON KEO");
-            printf("BAN DI TRUOC!!!\n");
-        }
-        else if(num_gamer ==BUA && num_machine== BAO ){
-            printf("BAN CHON BUA VA MAY CHON BAO\n");
-            printf("MAY DI TRUOC!!!\n");
-        }
-        else if(num_gamer == BAO && num_machine== KEO ){
-            printf("BAN CHON BAO VA MAY CHON KEO\n");
-            printf("MAY DI TRUOC!!!\n");
-        }
-        else if(num_gamer== BAO && num_machine== BUA){
-            printf("BAN CHON BAO VA MAY CHON BUA\n");
-            printf("BAN DI TRUOC!!! \n");
-        }
+        num_machine= 1+rand()%3;
 
-        do
-        {
-            else {
-                printf("BAN HOA VOI MAY!!!\n");
+        do{
+            printf("TYPE HERE: ");
+            scanf("%d", &num_gamer);
+           if(num_gamer==KEO && num_machine==BUA ){
+                printf("BAN CHON KEO VA MAY CHON BUA\n");
+                printf("MAY DI TRUOC!!!\n");    
+                return 0;
             }
-        } while ({num_gamer==num_machine});
-        
+            else if(num_gamer==KEO && num_machine==BAO){
+                printf("BAN CHON KEO VA MAY CHON BAO\n");
+                printf("BAN DI TRUOC!!!\n");
+                return true;
+            }
+            else if(num_gamer==BUA && num_machine==KEO ){
+                printf("BAN CHON BUA VA MAY CHON KEO");
+                printf("BAN DI TRUOC!!!\n");
+                return true;
+            }
+            else if(num_gamer ==BUA && num_machine== BAO ){
+                printf("BAN CHON BUA VA MAY CHON BAO\n");
+                printf("MAY DI TRUOC!!!\n");
+                return 0;
+
+            }
+            else if(num_gamer == BAO && num_machine== KEO ){
+                printf("BAN CHON BAO VA MAY CHON KEO\n");
+                printf("MAY DI TRUOC!!!\n");
+                return 0;
+
+            }
+            else if(num_gamer== BAO && num_machine== BUA){
+                printf("BAN CHON BAO VA MAY CHON BUA\n");
+                printf("BAN DI TRUOC!!! \n");
+                return true;
+            }
+            else if(num_gamer==num_machine){
+                printf("BAN HOA VOI MAY \nMOI BAN NHAP LAI: \n");
+
+            }
+
+        }while(num_gamer==num_machine);
+        return false;
 }
 
 
@@ -145,10 +157,17 @@ void computer_move() {
     board[row][col] = computer;
 }
 
+
+void goFirst_player(){
+    if(!first_play()){
+        return computer_move();
+    }
+}
 // how to play 
 void poppy_playgame() {
+    goFirst_player();
+    int row, col;
     while (!full_board()) {
-        int row, col;
         printboard();
 
         do {
@@ -159,45 +178,24 @@ void poppy_playgame() {
                 continue;
             }
         } while (!valid_move(row, col));
-        board[row][col] = player;
-
-        if (regime(player)) {
-            printboard();
-            printf("YOU ARE THE WINNER!!!\n");
-            return;
-        }
-
-        if (full_board()) {
-            printboard();
-            printf("IT IS A DRAW!!!\n");
-            return;
-        }
-
+        board[row][col]=player;
+        if(regime(player)|| full_board())break;
         computer_move();
-
-        if (regime(computer)) {
-            printboard();
-            printf("YOU LOSE\n");
-            return;
-        }
-
-        if (full_board()) {
-            printboard();
-            printf("IT IS A DRAW!!!\n");
-            return;
-        }
+        if(regime(computer)|| full_board())break;
     }
     printboard();
+    printf("%s\n", regime(player) ? "YOU ARE THE WINNER!!!" : regime(computer) ? "YOU LOSE" : "IT IS A DRAW!!!");
 }
+
+
 
 // main working space
 int main() {
     srand(time(NULL));
+    create_board();
+    choose();
     printf("KEO BUA BAO DE QUYET DINH NGUOI DI TRUOC");
     hienthiluachon();
-
-    choose();
-    create_board();
     poppy_playgame();
     return 0;
 }
